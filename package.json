@@ -1,9 +1,14 @@
 {
 	"name": "fcc-learn-npm-package-json",
+	"version": "0.1.0",
 	"dependencies": {
 		"express": "^4.14.0"
 	},
+	"author": "Liam Bialy",
+	"description": "esta es una descripcion de mi proyecto en español",
 	"main": "server.js",
+	"license": "MIT",
+	"keywords": [ "course", "express", "node", "freecodecamp" ],
 	"scripts": {
 		"start": "node server.js"
 	},
