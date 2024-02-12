@@ -27,14 +27,22 @@ app.get("/api/hello", (req, res) => {
 
 app.get('/api/:date', (req, res) => {
   try {
-    let unix = new Date(req.params.date).getTime();
-    let utc = new Date(req.params.date).toUTCString();
-    res.json({
-      "unix": unix,
-      "utc": utc
-    })
+    let time = req.params.date
+    let timeTransformed = !isNaN(time) ? new Date(Number(time)) : new Date(time)
+
+    if (isNaN(timeTransformed.getTime())) {
+      res.status(400).json({"error": "Invalid Date"})
+    } else {
+      res.json({
+        "unix": timeTransformed.getTime(),
+        "utc": timeTransformed.toUTCString()
+      })
+    }
+
   } catch (error) {
-    console.error(error)
+    res.json({
+      "error": 'Invalid Date'
+    })
   }
 })
 app.get('/api', (req, res) => {
@@ -49,5 +57,5 @@ app.get('/api', (req, res) => {
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
-  console.log('Your app is listening on port ' + listener.address().port);
+  console.log('Your app is listening on port ' + `http://localhost:${listener.address().port}`);
 });
