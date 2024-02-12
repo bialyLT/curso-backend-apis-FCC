@@ -25,22 +25,24 @@ app.get("/api/hello", (req, res) => {
 });
 
 
-app.get('/api/:date?', (req, res) => {
-  let unix = 0;
-  let utc = '';
-
-  if (isNaN(req.params.date)) {
-    const time = new Date(req.params.date)
-    utc = time[Symbol.toPrimitive]('string')
-    unix = time[Symbol.toPrimitive]('number')
-  } else {
-    const time = new Date(`${req.params.date} 00:00:00`)
-    utc = time[Symbol.toPrimitive]('string')
-    unix = time[Symbol.toPrimitive]('number')
+app.get('/api/:date', (req, res) => {
+  try {
+    let unix = new Date(req.params.date).getTime();
+    let utc = new Date(req.params.date).toUTCString();
+    res.json({
+      "unix": unix,
+      "utc": utc
+    })
+  } catch (error) {
+    console.error(error)
   }
+})
+app.get('/api', (req, res) => {
+  let unix = new Date().getTime();
+  let utc = new Date().toUTCString();
   res.json({
-    "unix": unix,
-    "utc": utc
+    unix: unix,
+    utc: utc
   })
 })
 
